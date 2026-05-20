@@ -110,12 +110,12 @@ export default function Page() {
             <a href="#pricing" className="hover:text-cyan-400 transition">Pricing</a>
           </div>
           <div className="flex gap-3">
-            <a href="https://apps.apple.com/app/interviewai" target="_blank" rel="noopener noreferrer" className="border border-slate-600 px-4 py-2 rounded-lg hover:border-slate-400 hover:bg-slate-800/50 transition text-sm">
+            {/* <a href="https://apps.apple.com/app/interviewai" target="_blank" rel="noopener noreferrer" className="border border-slate-600 px-4 py-2 rounded-lg hover:border-slate-400 hover:bg-slate-800/50 transition text-sm">
               macOS App
-            </a>
-            <button className="bg-gradient-to-r from-blue-600 to-cyan-600 px-6 py-2 rounded-lg hover:shadow-lg hover:shadow-blue-500/50 transition">
+            </a> */}
+            {/* <button className="bg-gradient-to-r from-blue-600 to-cyan-600 px-6 py-2 rounded-lg hover:shadow-lg hover:shadow-blue-500/50 transition">
               Get Started
-            </button>
+            </button> */}
           </div>
         </div>
       </nav>
@@ -138,9 +138,9 @@ export default function Page() {
               Practice, improve, and ace your interviews with real-time AI feedback, behavioral coaching, and personalized preparation strategies.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-              <button className="bg-gradient-to-r from-blue-600 to-cyan-600 px-8 py-4 rounded-lg font-semibold hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-200 flex items-center gap-2 justify-center">
+              {/* <button className="bg-gradient-to-r from-blue-600 to-cyan-600 px-8 py-4 rounded-lg font-semibold hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-200 flex items-center gap-2 justify-center">
                 Start Free Trial <ArrowRight size={20} />
-              </button>
+              </button> */}
               <a href="#snapshots" className="border border-slate-600 px-8 py-4 rounded-lg font-semibold hover:border-slate-400 hover:bg-slate-800/50 transition flex items-center gap-2 justify-center">
                 Watch Demo
               </a>
@@ -259,7 +259,7 @@ export default function Page() {
                     ? 'bg-gradient-to-r from-blue-600 to-cyan-600 hover:shadow-lg hover:shadow-blue-500/50' 
                     : 'border border-slate-600 hover:bg-slate-800'
                 }`}>
-                  Get Started
+                  Pay Now
                 </button>
               </div>
             ))}
@@ -325,7 +325,7 @@ export default function Page() {
               onClick={handleNotifyUs}
               disabled={!isValidEmail(email) || !isValidPhone(phone) || isSubmitting}
               className="bg-gradient-to-r from-blue-600 to-cyan-600 px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-200 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed">
-              {isSubmitting ? 'Submitting...' : 'Notify Us'}
+              {isSubmitting ? 'Submitting...' : 'Get the app'}
             </button>
           </div>
           {submitMessage && (
@@ -374,9 +374,9 @@ export default function Page() {
 
           <div className="mt-12 text-center">
             <p className="text-slate-400 mb-6">Ready to experience it yourself?</p>
-            <a href="https://apps.apple.com/app/interviewai" target="_blank" rel="noopener noreferrer" className="bg-gradient-to-r from-blue-600 to-cyan-600 px-8 py-4 rounded-lg font-semibold hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-200 inline-block">
+            {/* <a href="https://apps.apple.com/app/interviewai" target="_blank" rel="noopener noreferrer" className="bg-gradient-to-r from-blue-600 to-cyan-600 px-8 py-4 rounded-lg font-semibold hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-200 inline-block">
               Download macOS App
-            </a>
+            </a> */}
           </div>
         </div>
       </section>
