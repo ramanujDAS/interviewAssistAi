@@ -9,6 +9,13 @@ export default function Page() {
   const [countryCode, setCountryCode] = useState('+1');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [registerUsername, setRegisterUsername] = useState('');
+  const [registerEmail, setRegisterEmail] = useState('');
+  const [registerPhone, setRegisterPhone] = useState('');
+  const [registerPassword, setRegisterPassword] = useState('');
+  const [registerCountryCode, setRegisterCountryCode] = useState('+1');
+  const [registerSubmitting, setRegisterSubmitting] = useState(false);
 
   const isValidEmail = (emailValue: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -18,6 +25,53 @@ export default function Page() {
   const isValidPhone = (phoneValue: string) => {
     const phoneRegex = /^[0-9\s\-\+\(\)]{7,15}$/;
     return phoneRegex.test(phoneValue.replace(/\s/g, ''));
+  };
+
+  const isValidPassword = (passwordValue: string) => {
+    return passwordValue.length >= 6;
+  };
+
+  const isValidUsername = (usernameValue: string) => {
+    // Username should be 3-20 characters, alphanumeric and underscore/hyphen only
+    const usernameRegex = /^[a-zA-Z0-9_-]{3,20}$/;
+    return usernameRegex.test(usernameValue);
+  };
+
+  const handleRegister = async () => {
+    setRegisterSubmitting(true);
+    try {
+      const response = await fetch('http://localhost:8080/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userName: registerUsername,
+          emailId: registerEmail,
+          phone: registerCountryCode + registerPhone,
+          password: registerPassword
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('✅ Registration successful! Check your email for verification link.');
+        setShowRegisterModal(false);
+        setRegisterUsername('');
+        setRegisterEmail('');
+        setRegisterPhone('');
+        setRegisterPassword('');
+        setRegisterCountryCode('+1');
+      } else {
+        alert(`❌ ${data.message || 'Registration failed. Please try again.'}`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('❌ Connection error. Make sure your API server is running on localhost:3001');
+    } finally {
+      setRegisterSubmitting(false);
+    }
   };
 
   const handleNotifyUs = async () => {
@@ -141,6 +195,11 @@ export default function Page() {
               {/* <button className="bg-gradient-to-r from-blue-600 to-cyan-600 px-8 py-4 rounded-lg font-semibold hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-200 flex items-center gap-2 justify-center">
                 Start Free Trial <ArrowRight size={20} />
               </button> */}
+              <button 
+                onClick={() => setShowRegisterModal(true)}
+                className="bg-gradient-to-r from-blue-600 to-cyan-600 px-8 py-4 rounded-lg font-semibold hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-200 flex items-center gap-2 justify-center">
+                Register Now <ArrowRight size={20} />
+              </button>
               <a href="#snapshots" className="border border-slate-600 px-8 py-4 rounded-lg font-semibold hover:border-slate-400 hover:bg-slate-800/50 transition flex items-center gap-2 justify-center">
                 Watch Demo
               </a>
@@ -392,6 +451,129 @@ export default function Page() {
           </div>
         </div>
       </footer>
+
+      {/* Register Modal */}
+      {showRegisterModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700/50 rounded-2xl max-w-md w-full p-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-3xl font-bold text-white">Register</h2>
+              <button 
+                onClick={() => setShowRegisterModal(false)}
+                className="text-slate-400 hover:text-white text-2xl"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              {/* Username Field */}
+              <div>
+                <label className="block text-sm text-slate-300 mb-2">Username</label>
+                <input
+                  type="text"
+                  value={registerUsername}
+                  onChange={(e) => setRegisterUsername(e.target.value)}
+                  placeholder="3-20 characters, letters, numbers, _, -"
+                  className={`w-full bg-slate-700/50 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:border-transparent text-white placeholder-slate-500 transition ${
+                    registerUsername && !isValidUsername(registerUsername)
+                      ? 'border-red-500 focus:ring-red-500'
+                      : 'border-slate-600 focus:ring-blue-500'
+                  }`}
+                />
+                {registerUsername && !isValidUsername(registerUsername) && (
+                  <p className="text-red-400 text-xs mt-1">⚠️ Username must be 3-20 characters (letters, numbers, _, -)</p>
+                )}
+              </div>
+
+              {/* Email Field */}
+              <div>
+                <label className="block text-sm text-slate-300 mb-2">Email Address</label>
+                <input
+                  type="email"
+                  value={registerEmail}
+                  onChange={(e) => setRegisterEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  className={`w-full bg-slate-700/50 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:border-transparent text-white placeholder-slate-500 transition ${
+                    registerEmail && !isValidEmail(registerEmail)
+                      ? 'border-red-500 focus:ring-red-500'
+                      : 'border-slate-600 focus:ring-blue-500'
+                  }`}
+                />
+                {registerEmail && !isValidEmail(registerEmail) && (
+                  <p className="text-red-400 text-xs mt-1">⚠️ Please enter a valid email</p>
+                )}
+              </div>
+
+              {/* Phone Field */}
+              <div>
+                <label className="block text-sm text-slate-300 mb-2">Phone Number</label>
+                <div className="flex gap-2">
+                  <select
+                    value={registerCountryCode}
+                    onChange={(e) => setRegisterCountryCode(e.target.value)}
+                    className="bg-slate-700/50 border border-slate-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
+                  >
+                    {countryCodes.map((item) => (
+                      <option key={item.code} value={item.code}>
+                        {item.code}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    type="tel"
+                    value={registerPhone}
+                    onChange={(e) => setRegisterPhone(e.target.value)}
+                    placeholder="Phone number"
+                    className={`flex-1 bg-slate-700/50 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:border-transparent text-white placeholder-slate-500 transition ${
+                      registerPhone && !isValidPhone(registerPhone)
+                        ? 'border-red-500 focus:ring-red-500'
+                        : 'border-slate-600 focus:ring-blue-500'
+                    }`}
+                  />
+                </div>
+                {registerPhone && !isValidPhone(registerPhone) && (
+                  <p className="text-red-400 text-xs mt-1">⚠️ Phone must be 7-15 digits</p>
+                )}
+              </div>
+
+              {/* Password Field */}
+              <div>
+                <label className="block text-sm text-slate-300 mb-2">Password</label>
+                <input
+                  type="password"
+                  value={registerPassword}
+                  onChange={(e) => setRegisterPassword(e.target.value)}
+                  placeholder="At least 6 characters"
+                  className={`w-full bg-slate-700/50 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:border-transparent text-white placeholder-slate-500 transition ${
+                    registerPassword && !isValidPassword(registerPassword)
+                      ? 'border-red-500 focus:ring-red-500'
+                      : 'border-slate-600 focus:ring-blue-500'
+                  }`}
+                />
+                {registerPassword && !isValidPassword(registerPassword) && (
+                  <p className="text-red-400 text-xs mt-1">⚠️ Password must be at least 6 characters</p>
+                )}
+              </div>
+
+              {/* Register Button */}
+              <button
+                onClick={handleRegister}
+                disabled={
+                  !isValidUsername(registerUsername) ||
+                  !isValidEmail(registerEmail) || 
+                  !isValidPhone(registerPhone) || 
+                  !isValidPassword(registerPassword) || 
+                  registerSubmitting
+                }
+                className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 px-6 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-white mt-6"
+              >
+                {registerSubmitting ? 'Registering...' : 'Create Account'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
