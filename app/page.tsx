@@ -47,13 +47,10 @@ export default function Page() {
         },
         body: JSON.stringify({
           userName: registerUsername,
-          emailId: registerEmail,
-          phone: registerCountryCode + registerPhone,
-          password: registerPassword
+          password: registerPassword,
+          emailId: registerEmail
         })
       });
-
-      const data = await response.json();
 
       if (response.ok) {
         alert('✅ Registration successful! Check your email for verification link.');
@@ -64,11 +61,10 @@ export default function Page() {
         setRegisterPassword('');
         setRegisterCountryCode('+1');
       } else {
-        alert(`❌ ${data.message || 'Registration failed. Please try again.'}`);
+        alert(`❌ Registration failed. Status code: ${response.status}`);
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('❌ Connection error. Make sure your API server is running on localhost:3001');
     } finally {
       setRegisterSubmitting(false);
     }
@@ -164,12 +160,12 @@ export default function Page() {
             <a href="#pricing" className="hover:text-cyan-400 transition">Pricing</a>
           </div>
           <div className="flex gap-3">
-            {/* <a href="https://apps.apple.com/app/interviewai" target="_blank" rel="noopener noreferrer" className="border border-slate-600 px-4 py-2 rounded-lg hover:border-slate-400 hover:bg-slate-800/50 transition text-sm">
-              macOS App
-            </a> */}
-            {/* <button className="bg-gradient-to-r from-blue-600 to-cyan-600 px-6 py-2 rounded-lg hover:shadow-lg hover:shadow-blue-500/50 transition">
-              Get Started
-            </button> */}
+            <a
+              href="mailto:ramanuj3rd@gmail.com"
+              className="bg-gradient-to-r from-blue-600 to-cyan-600 px-5 py-2 rounded-lg font-semibold text-white hover:shadow-lg hover:shadow-blue-500/50 transition text-sm whitespace-nowrap"
+            >
+              Contact Us
+            </a>
           </div>
         </div>
       </nav>
@@ -444,10 +440,9 @@ export default function Page() {
       <footer className="border-t border-slate-700/30 py-12 px-6 text-center text-slate-400">
         <div className="max-w-6xl mx-auto">
           <p className="mb-4">© 2026 InterviewAI. All rights reserved.</p>
-          <div className="flex gap-6 justify-center text-sm">
+          <div className="flex gap-6 justify-center text-sm mb-4">
             <a href="#" className="hover:text-cyan-400 transition">Privacy</a>
             <a href="#" className="hover:text-cyan-400 transition">Terms</a>
-            <a href="#" className="hover:text-cyan-400 transition">Contact</a>
           </div>
         </div>
       </footer>
