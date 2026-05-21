@@ -4,6 +4,39 @@ import { useState } from 'react';
 import { ArrowRight, CheckCircle, Zap, Brain, Mic, Target, Users, BarChart3, Clock } from 'lucide-react';
 
 export default function Page() {
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [loginUsername, setLoginUsername] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [loginSubmitting, setLoginSubmitting] = useState(false);
+
+  const handleLogin = async () => {
+    setLoginSubmitting(true);
+    try {
+      const response = await fetch("http://localhost:8080/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: loginUsername,
+          password: loginPassword,
+        }),
+      });
+      if (response.ok) {
+        alert("✅ Login successful!");
+        setShowLoginModal(false);
+        setLoginUsername("");
+        setLoginPassword("");
+      } else {
+        alert(`❌ Login failed. Status code: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("❌ Connection error. Make sure your API server is running on localhost:8080");
+    } finally {
+      setLoginSubmitting(false);
+    }
+  };
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [countryCode, setCountryCode] = useState('+1');
@@ -160,15 +193,73 @@ export default function Page() {
             <a href="#pricing" className="hover:text-cyan-400 transition">Pricing</a>
           </div>
           <div className="flex gap-3">
+            <button
+              onClick={() => setShowRegisterModal(true)}
+              className="bg-gradient-to-r from-blue-600 to-cyan-600 px-5 py-2 rounded-lg font-semibold text-white hover:shadow-lg hover:shadow-blue-500/50 transition text-sm whitespace-nowrap"
+            >
+              Register
+            </button>
+            <button
+              onClick={() => setShowLoginModal(true)}
+              className="bg-slate-800 border border-slate-600 px-5 py-2 rounded-lg font-semibold text-white hover:border-blue-400 hover:bg-slate-700/70 transition text-sm whitespace-nowrap ml-2"
+            >
+              Login
+            </button>
             <a
               href="mailto:ramanuj3rd@gmail.com"
-              className="bg-gradient-to-r from-blue-600 to-cyan-600 px-5 py-2 rounded-lg font-semibold text-white hover:shadow-lg hover:shadow-blue-500/50 transition text-sm whitespace-nowrap"
+              className="bg-gradient-to-r from-blue-600 to-cyan-600 px-5 py-2 rounded-lg font-semibold text-white hover:shadow-lg hover:shadow-blue-500/50 transition text-sm whitespace-nowrap ml-2"
             >
               Contact Us
             </a>
           </div>
         </div>
       </nav>
+
+      {/* Login Modal */}
+      {showLoginModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700/50 rounded-2xl max-w-md w-full p-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-3xl font-bold text-white">Login</h2>
+              <button
+                onClick={() => setShowLoginModal(false)}
+                className="text-slate-400 hover:text-white text-2xl"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm text-slate-300 mb-2">Username</label>
+                <input
+                  type="text"
+                  value={loginUsername}
+                  onChange={e => setLoginUsername(e.target.value)}
+                  placeholder="Enter your username"
+                  className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-slate-500 transition"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-slate-300 mb-2">Password</label>
+                <input
+                  type="password"
+                  value={loginPassword}
+                  onChange={e => setLoginPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-slate-500 transition"
+                />
+              </div>
+              <button
+                onClick={handleLogin}
+                disabled={!loginUsername || !loginPassword || loginSubmitting}
+                className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 px-6 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-white mt-6"
+              >
+                {loginSubmitting ? "Logging in..." : "Login"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-6 relative overflow-hidden">
@@ -191,11 +282,7 @@ export default function Page() {
               {/* <button className="bg-gradient-to-r from-blue-600 to-cyan-600 px-8 py-4 rounded-lg font-semibold hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-200 flex items-center gap-2 justify-center">
                 Start Free Trial <ArrowRight size={20} />
               </button> */}
-              <button 
-                onClick={() => setShowRegisterModal(true)}
-                className="bg-gradient-to-r from-blue-600 to-cyan-600 px-8 py-4 rounded-lg font-semibold hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-200 flex items-center gap-2 justify-center">
-                Register Now <ArrowRight size={20} />
-              </button>
+              {/* Register button moved to top right nav */}
               <a href="#snapshots" className="border border-slate-600 px-8 py-4 rounded-lg font-semibold hover:border-slate-400 hover:bg-slate-800/50 transition flex items-center gap-2 justify-center">
                 Watch Demo
               </a>
