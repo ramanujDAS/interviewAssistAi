@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { ArrowRight, CheckCircle, Zap, Brain, Mic, Target, Users, BarChart3, Clock } from 'lucide-react';
 
 export default function Page() {
+  type LoggedInUser = { username: string; access_token: string } | null;
+  const [loggedInUser, setLoggedInUser] = useState<LoggedInUser>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
@@ -23,10 +25,18 @@ export default function Page() {
         }),
       });
       if (response.ok) {
-        alert("✅ Login successful!");
-        setShowLoginModal(false);
-        setLoginUsername("");
-        setLoginPassword("");
+        let data: any = {};
+        try {
+          data = await response.json();
+        } catch (e) {}
+        if (typeof data.access_token === 'string' && typeof data.username === 'string') {
+          setLoggedInUser({ username: data.username, access_token: data.access_token });
+          setShowLoginModal(false);
+          setLoginUsername("");
+          setLoginPassword("");
+        } else {
+          alert("❌ Login failed: Invalid response from server.");
+        }
       } else {
         alert(`❌ Login failed. Status code: ${response.status}`);
       }
@@ -193,24 +203,43 @@ export default function Page() {
             <a href="#pricing" className="hover:text-cyan-400 transition">Pricing</a>
           </div>
           <div className="flex gap-3">
-            <button
-              onClick={() => setShowRegisterModal(true)}
-              className="bg-gradient-to-r from-blue-600 to-cyan-600 px-5 py-2 rounded-lg font-semibold text-white hover:shadow-lg hover:shadow-blue-500/50 transition text-sm whitespace-nowrap"
-            >
-              Register
-            </button>
-            <button
-              onClick={() => setShowLoginModal(true)}
-              className="bg-slate-800 border border-slate-600 px-5 py-2 rounded-lg font-semibold text-white hover:border-blue-400 hover:bg-slate-700/70 transition text-sm whitespace-nowrap ml-2"
-            >
-              Login
-            </button>
-            <a
-              href="mailto:ramanuj3rd@gmail.com"
-              className="bg-gradient-to-r from-blue-600 to-cyan-600 px-5 py-2 rounded-lg font-semibold text-white hover:shadow-lg hover:shadow-blue-500/50 transition text-sm whitespace-nowrap ml-2"
-            >
-              Contact Us
-            </a>
+            {loggedInUser ? (
+              <div className="flex items-center gap-2">
+                <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 7.5a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 19.5a7.5 7.5 0 1115 0v.75a.75.75 0 01-.75.75h-13.5a.75.75 0 01-.75-.75V19.5z" />
+                  </svg>
+                </div>
+                <span className="font-semibold text-white text-sm">{loggedInUser.username}</span>
+                <a
+                  href="mailto:ramanuj3rd@gmail.com"
+                  className="bg-gradient-to-r from-blue-600 to-cyan-600 px-5 py-2 rounded-lg font-semibold text-white hover:shadow-lg hover:shadow-blue-500/50 transition text-sm whitespace-nowrap ml-2"
+                >
+                  Contact Us
+                </a>
+              </div>
+            ) : (
+              <>
+                <button
+                  onClick={() => setShowRegisterModal(true)}
+                  className="bg-gradient-to-r from-blue-600 to-cyan-600 px-5 py-2 rounded-lg font-semibold text-white hover:shadow-lg hover:shadow-blue-500/50 transition text-sm whitespace-nowrap"
+                >
+                  Register
+                </button>
+                <button
+                  onClick={() => setShowLoginModal(true)}
+                  className="bg-slate-800 border border-slate-600 px-5 py-2 rounded-lg font-semibold text-white hover:border-blue-400 hover:bg-slate-700/70 transition text-sm whitespace-nowrap ml-2"
+                >
+                  Login
+                </button>
+                <a
+                  href="mailto:ramanuj3rd@gmail.com"
+                  className="bg-gradient-to-r from-blue-600 to-cyan-600 px-5 py-2 rounded-lg font-semibold text-white hover:shadow-lg hover:shadow-blue-500/50 transition text-sm whitespace-nowrap ml-2"
+                >
+                  Contact Us
+                </a>
+              </>
+            )}
           </div>
         </div>
       </nav>
