@@ -90,8 +90,9 @@ export default function Page() {
         },
         body: JSON.stringify({
           userName: registerUsername,
-          password: registerPassword,
-          emailId: registerEmail
+          emailId: registerEmail,
+          phone: registerCountryCode + registerPhone,
+          password: registerPassword
         })
       });
 
@@ -244,52 +245,6 @@ export default function Page() {
         </div>
       </nav>
 
-      {/* Login Modal */}
-      {showLoginModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700/50 rounded-2xl max-w-md w-full p-8">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-3xl font-bold text-white">Login</h2>
-              <button
-                onClick={() => setShowLoginModal(false)}
-                className="text-slate-400 hover:text-white text-2xl"
-              >
-                ✕
-              </button>
-            </div>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm text-slate-300 mb-2">Username</label>
-                <input
-                  type="text"
-                  value={loginUsername}
-                  onChange={e => setLoginUsername(e.target.value)}
-                  placeholder="Enter your username"
-                  className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-slate-500 transition"
-                />
-              </div>
-              <div>
-                <label className="block text-sm text-slate-300 mb-2">Password</label>
-                <input
-                  type="password"
-                  value={loginPassword}
-                  onChange={e => setLoginPassword(e.target.value)}
-                  placeholder="Enter your password"
-                  className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-slate-500 transition"
-                />
-              </div>
-              <button
-                onClick={handleLogin}
-                disabled={!loginUsername || !loginPassword || loginSubmitting}
-                className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 px-6 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-white mt-6"
-              >
-                {loginSubmitting ? "Logging in..." : "Login"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-cyan-500/5 blur-3xl"></div>
@@ -311,7 +266,11 @@ export default function Page() {
               {/* <button className="bg-gradient-to-r from-blue-600 to-cyan-600 px-8 py-4 rounded-lg font-semibold hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-200 flex items-center gap-2 justify-center">
                 Start Free Trial <ArrowRight size={20} />
               </button> */}
-              {/* Register button moved to top right nav */}
+              <button 
+                onClick={() => setShowRegisterModal(true)}
+                className="bg-gradient-to-r from-blue-600 to-cyan-600 px-8 py-4 rounded-lg font-semibold hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-200 flex items-center gap-2 justify-center">
+                Register Now <ArrowRight size={20} />
+              </button>
               <a href="#snapshots" className="border border-slate-600 px-8 py-4 rounded-lg font-semibold hover:border-slate-400 hover:bg-slate-800/50 transition flex items-center gap-2 justify-center">
                 Watch Demo
               </a>
@@ -496,7 +455,7 @@ export default function Page() {
               onClick={handleNotifyUs}
               disabled={!isValidEmail(email) || !isValidPhone(phone) || isSubmitting}
               className="bg-gradient-to-r from-blue-600 to-cyan-600 px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-200 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed">
-              {isSubmitting ? 'Submitting...' : 'Get the app'}
+              {isSubmitting ? 'Submitting...' : 'Get the app build on mail for trail'}
             </button>
           </div>
           {submitMessage && (
@@ -504,7 +463,7 @@ export default function Page() {
               {submitMessage}
             </div>
           )}
-        </div>
+        </div>:Wq
       </section>
 
       {/* Image Snapshot Section */}
@@ -556,9 +515,10 @@ export default function Page() {
       <footer className="border-t border-slate-700/30 py-12 px-6 text-center text-slate-400">
         <div className="max-w-6xl mx-auto">
           <p className="mb-4">© 2026 InterviewAI. All rights reserved.</p>
-          <div className="flex gap-6 justify-center text-sm mb-4">
+          <div className="flex gap-6 justify-center text-sm">
             <a href="#" className="hover:text-cyan-400 transition">Privacy</a>
             <a href="#" className="hover:text-cyan-400 transition">Terms</a>
+            <a href="#" className="hover:text-cyan-400 transition">Contact</a>
           </div>
         </div>
       </footer>
