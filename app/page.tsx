@@ -32,6 +32,8 @@ export default function Page() {
         if (typeof data.access_token === 'string' && typeof data.username === 'string') {
           setLoggedInUser({ username: data.username, access_token: data.access_token });
           setShowLoginModal(false);
+          localStorage.setItem("access_token", data.access_token);
+          setShowRegisterModal(true)
           setLoginUsername("");
           setLoginPassword("");
         } else {
@@ -266,11 +268,11 @@ export default function Page() {
               {/* <button className="bg-gradient-to-r from-blue-600 to-cyan-600 px-8 py-4 rounded-lg font-semibold hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-200 flex items-center gap-2 justify-center">
                 Start Free Trial <ArrowRight size={20} />
               </button> */}
-              <button 
+              {/* <button 
                 onClick={() => setShowRegisterModal(true)}
                 className="bg-gradient-to-r from-blue-600 to-cyan-600 px-8 py-4 rounded-lg font-semibold hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-200 flex items-center gap-2 justify-center">
                 Register Now <ArrowRight size={20} />
-              </button>
+              </button> */}
               <a href="#snapshots" className="border border-slate-600 px-8 py-4 rounded-lg font-semibold hover:border-slate-400 hover:bg-slate-800/50 transition flex items-center gap-2 justify-center">
                 Watch Demo
               </a>
