@@ -465,7 +465,7 @@ export default function Page() {
               {submitMessage}
             </div>
           )}
-        </div>:Wq
+        </div>
       </section>
 
       {/* Image Snapshot Section */}
@@ -540,7 +540,7 @@ export default function Page() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold mb-2">Office Address</h3>
-              <p className="text-slate-300">Casa Imperia Flat No- B2-406<br />Pune - 400157</p>
+              <p className="text-slate-300">Casa Imperia Flat No- B2-406<br />Pune - 411057</p>
             </div>
 
 
@@ -554,7 +554,7 @@ export default function Page() {
           <p className="mb-4">© 2026 InterviewAI. All rights reserved.</p>
           <div className="mb-6 text-sm">
             <p className="font-semibold text-white mb-2">Office Address</p>
-            <p>Casa Imperia Flat No- B2-406, Pune - 400157</p>
+            <p>Casa Imperia Flat No- B2-406, Pune - 411057</p>
           </div>
           <div className="flex gap-6 justify-center text-sm">
             <a href="#" className="hover:text-cyan-400 transition">Privacy</a>
