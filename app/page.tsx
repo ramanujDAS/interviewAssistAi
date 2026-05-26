@@ -44,7 +44,7 @@ export default function Page() {
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("❌ Connection error. Make sure your API server is running on localhost:8080");
+      alert("❌ Connection error. Make sure your API server");
     } finally {
       setLoginSubmitting(false);
     }
@@ -513,10 +513,49 @@ export default function Page() {
         </div>
       </section>
 
+      {/* Contact Us Section */}
+      <section className="py-20 px-6 border-t border-slate-700/30">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-5xl font-bold mb-6">Get in Touch</h2>
+          <p className="text-xl text-slate-400 mb-12">Have questions or need support? We'd love to hear from you!</p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
+            {/* Email */}
+            <div className="bg-gradient-to-br from-slate-800/30 to-slate-900/30 border border-slate-700/30 rounded-xl p-8 hover:border-blue-500/50 transition-all duration-200">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25H4.5a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5H4.5A2.25 2.25 0 002.25 6.75m19.5 0v-1.5a2.25 2.25 0 00-2.25-2.25H4.5a2.25 2.25 0 00-2.25 2.25v1.5m19.5 0h-1.5V9m-1.5-2.25h-2.25a2.25 2.25 0 00-2.25 2.25v1.5m4.5 0a2.25 2.25 0 002.25-2.25" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Email</h3>
+              <a href="mailto:ramanuj3rd@gmail.com" className="text-cyan-400 hover:text-cyan-300 transition">ramanuj3rd@gmail.com</a>
+            </div>
+
+            {/* Address */}
+            <div className="bg-gradient-to-br from-slate-800/30 to-slate-900/30 border border-slate-700/30 rounded-xl p-8 hover:border-blue-500/50 transition-all duration-200">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Office Address</h3>
+              <p className="text-slate-300">Casa Imperia Flat No- B2-406<br />Pune - 400157</p>
+            </div>
+
+
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="border-t border-slate-700/30 py-12 px-6 text-center text-slate-400">
         <div className="max-w-6xl mx-auto">
           <p className="mb-4">© 2026 InterviewAI. All rights reserved.</p>
+          <div className="mb-6 text-sm">
+            <p className="font-semibold text-white mb-2">Office Address</p>
+            <p>Casa Imperia Flat No- B2-406, Pune - 400157</p>
+          </div>
           <div className="flex gap-6 justify-center text-sm">
             <a href="#" className="hover:text-cyan-400 transition">Privacy</a>
             <a href="#" className="hover:text-cyan-400 transition">Terms</a>
