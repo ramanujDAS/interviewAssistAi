@@ -3,6 +3,9 @@
 import { useState } from 'react';
 import { ArrowRight, CheckCircle, Zap, Brain, Mic, Target, Users, BarChart3, Clock } from 'lucide-react';
 
+// Global API Hostname Configuration
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+
 export default function Page() {
   type LoggedInUser = { username: string; access_token: string } | null;
   const [loggedInUser, setLoggedInUser] = useState<LoggedInUser>(null);
@@ -15,13 +18,13 @@ export default function Page() {
     setLoginSubmitting(true);
     try {
       console.log("🔐 Login attempt with username:", loginUsername);
-      const response = await fetch("http://localhost:8080/login", {
+      const response = await fetch(`${API_BASE_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: loginUsername,
+          userName: loginUsername,
           password: loginPassword,
         }),
       });
@@ -98,7 +101,8 @@ export default function Page() {
   const handleRegister = async () => {
     setRegisterSubmitting(true);
     try {
-      const response = await fetch('http://localhost:8080/register', {
+      console.log("📝 Register attempt with username:", registerUsername);
+      const response = await fetch(`${API_BASE_URL}/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -110,6 +114,7 @@ export default function Page() {
           password: registerPassword
         })
       });
+      console.log("📡 Register API response status:", response.status);
 
       if (response.ok) {
         alert('✅ Registration successful! Check your email for verification link.');
@@ -133,7 +138,7 @@ export default function Page() {
     setIsSubmitting(true);
     try {
       // Use formResponse endpoint instead of viewform
-      const formUrl = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSfELCxlkfcgyCs6u3kV3IubpZukfDvZg2bH_7V7LcVMzRfvdA/formResponse';
+      const formUrl = 'http://docs.google.com/forms/u/0/d/e/1FAIpQLSfELCxlkfcgyCs6u3kV3IubpZukfDvZg2bH_7V7LcVMzRfvdA/formResponse';
       
       const formData = new FormData();
       // Replace with your actual Google Form field IDs
