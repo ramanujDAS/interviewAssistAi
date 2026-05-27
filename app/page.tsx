@@ -14,6 +14,7 @@ export default function Page() {
   const handleLogin = async () => {
     setLoginSubmitting(true);
     try {
+      console.log("🔐 Login attempt with username:", loginUsername);
       const response = await fetch("http://localhost:8080/login", {
         method: "POST",
         headers: {
@@ -24,27 +25,39 @@ export default function Page() {
           password: loginPassword,
         }),
       });
+      console.log("📡 Login API response status:", response.status);
+      
       if (response.ok) {
         let data: any = {};
         try {
           data = await response.json();
-        } catch (e) {}
+          console.log("✅ Login response data:", data);
+        } catch (parseError) {
+          console.error("❌ Failed to parse login response JSON:", parseError);
+          alert("❌ Login failed: Server returned invalid JSON response.");
+          return;
+        }
         if (typeof data.access_token === 'string' && typeof data.username === 'string') {
+          console.log("🎉 Login successful! Token received:", data.access_token.substring(0, 20) + "...");
           setLoggedInUser({ username: data.username, access_token: data.access_token });
           setShowLoginModal(false);
           localStorage.setItem("access_token", data.access_token);
-          setShowRegisterModal(true)
           setLoginUsername("");
           setLoginPassword("");
+          alert("✅ Login successful!");
         } else {
-          alert("❌ Login failed: Invalid response from server.");
+          console.error("❌ Invalid response structure. Expected access_token and username, got:", Object.keys(data));
+          alert("❌ Login failed: Invalid response from server. Missing required fields.");
         }
       } else {
-        alert(`❌ Login failed. Status code: ${response.status}`);
+        const errorText = await response.text();
+        console.error(`❌ Login API error - Status: ${response.status}`, errorText);
+        alert(`❌ Login failed. Status: ${response.status}\nDetails: ${errorText}`);
       }
     } catch (error) {
-      console.error("Error:", error);
-      alert("❌ Connection error. Make sure your API server");
+      console.error("🔴 Network/Connection error during login:", error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      alert(`❌ Connection error: ${errorMessage}\nMake sure your API server is running on localhost:8080`);
     } finally {
       setLoginSubmitting(false);
     }
