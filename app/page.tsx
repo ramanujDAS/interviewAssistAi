@@ -17,6 +17,7 @@ export default function Page() {
       console.log("🔐 Login attempt with username:", loginUsername);
       const response = await fetch("http://localhost:8080/login", {
         method: "POST",
+        mode: 'no-cors',
         headers: {
           "Content-Type": "application/json",
         },
@@ -100,6 +101,7 @@ export default function Page() {
     try {
       const response = await fetch('http://localhost:8080/register', {
         method: 'POST',
+        mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json',
         },
