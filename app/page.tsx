@@ -15,7 +15,7 @@ export default function Page() {
     setLoginSubmitting(true);
     try {
       console.log("🔐 Login attempt with username:", loginUsername);
-      const response = await fetch("http://localhost:8080/login", {
+      const response = await fetch("https://interview-assist-ai-nine.vercel.app/login", {
         method: "POST",
         mode: 'no-cors',
         headers: {
@@ -99,7 +99,7 @@ export default function Page() {
   const handleRegister = async () => {
     setRegisterSubmitting(true);
     try {
-      const response = await fetch('http://localhost:8080/register', {
+      const response = await fetch('https://interview-assist-ai-nine.vercel.app/register', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
